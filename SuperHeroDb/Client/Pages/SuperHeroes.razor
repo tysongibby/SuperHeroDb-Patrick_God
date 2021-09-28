@@ -1,0 +1,43 @@
+﻿@page "/superheroes"
+@inject ISuperHeroService  SuperHeroService
+
+<h3>Super Heroes</h3>
+
+@if(heroes.Count == 0)
+{
+    <span> Loading Super Heroes... </span>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>HeroName</th>
+                <th>Comic</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach(var hero in heroes)
+            {
+            <tr>
+                <td>@hero.FirstName</td>
+                <td>@hero.LastName</td>
+                <td>@hero.HeroName</td>
+                <td>@hero.Comic.Name</td>
+            </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    List<SuperHero> heroes = new List<SuperHero>();
+    protected override async Task OnInitializedAsync()
+    {
+        heroes = await SuperHeroService.GetSuperHeroes();
+        
+    }
+
+}
