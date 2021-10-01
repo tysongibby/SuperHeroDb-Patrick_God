@@ -36,7 +36,7 @@ namespace SuperHeroDb.Server.Controllers
             return Ok(heroes);
         }
 
-        
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSingleSuperHero(int id)
         {
@@ -53,6 +53,20 @@ namespace SuperHeroDb.Server.Controllers
         {
             hero.Id = heroes.Max(h => h.Id + 1);
             heroes.Add(hero);
+            return Ok(heroes);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateSuperHero(SuperHero hero, int id)
+        {
+            var dbHero = heroes.FirstOrDefault(h => h.Id == id);
+            if (dbHero == null)
+            {
+                return NotFound("Super Hero was not found. Too bad :(");
+            }
+
+            dbHero = hero;
+            
             return Ok(heroes);
         }
     }

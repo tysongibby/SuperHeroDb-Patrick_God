@@ -1,3 +1,3 @@
 ﻿CRUD with Blazor WebAssembly & Web API in .NET 5 
 https://www.youtube.com/watch?v=14H9FsD3IVI
-bookmarked at https://youtu.be/14H9FsD3IVI?t=2272
+bookmarked at https://youtu.be/14H9FsD3IVI?t=6385
