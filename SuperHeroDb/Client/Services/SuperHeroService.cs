@@ -30,6 +30,14 @@ namespace SuperHeroDb.Client.Services
             return Heroes;
         }
 
+        public async Task<List<SuperHero>> DeleteSuperHero(int id)
+        {
+            var result = await _httpClient.DeleteAsync($"api/superhero/{id}");
+            Heroes = await result.Content.ReadFromJsonAsync<List<SuperHero>>();
+            Onchange.Invoke();
+            return Heroes;
+        }
+
         public async Task GetComics()
         {
             Comics = await _httpClient.GetFromJsonAsync<List<Comic>>("api/superhero/comics");

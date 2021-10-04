@@ -57,7 +57,7 @@ namespace SuperHeroDb.Server.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateSuperHero(SuperHero hero, int id)
+        public async Task<IActionResult> UpdateSuperHero(SuperHero updatedHero, int id)
         {
             var dbHero = heroes.FirstOrDefault(h => h.Id == id);
             if (dbHero == null)
@@ -65,9 +65,25 @@ namespace SuperHeroDb.Server.Controllers
                 return NotFound("Super Hero was not found. Too bad :(");
             }
 
-            dbHero = hero;
+            var index = heroes.IndexOf(dbHero);
+            heroes[index] = updatedHero;
             
             return Ok(heroes);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteSuperHero(int id)
+        {
+            var dbHero = heroes.FirstOrDefault(h => h.Id == id);
+            if (dbHero == null)
+            {
+                return NotFound("Super Hero was not found. Too bad :(");
+            }
+
+            heroes.Remove(dbHero);
+
+            return Ok(heroes);
+        }
+
     }
 }

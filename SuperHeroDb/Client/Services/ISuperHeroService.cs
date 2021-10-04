@@ -16,5 +16,6 @@ namespace SuperHeroDb.Client.Services
         Task<SuperHero> GetSuperHero(int id);
         Task<List<SuperHero>> CreateSuperHero(SuperHero hero);
         Task<List<SuperHero>> UpdateSuperHero(SuperHero hero, int id);
+        Task<List<SuperHero>> DeleteSuperHero(int id);
     }
 }

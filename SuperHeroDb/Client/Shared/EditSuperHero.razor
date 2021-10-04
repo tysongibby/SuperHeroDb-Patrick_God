@@ -1,7 +1,14 @@
 ﻿@inject ISuperHeroService SuperHeroService
 @inject IJSRuntime JsRuntime
 
-<h3>Edit Super Hero</h3>
+@if (Hero.Id == 0)
+{
+    <h3>Create a New Hero</h3>
+}
+else
+{
+    <h3>Edit '@Hero.HeroName'</h3>
+}
 
 <EditForm Model="Hero" OnSubmit="HandleSubmit">
     <div class="form-group">
@@ -29,23 +36,37 @@
 </EditForm>
 
 @code {
+    //[Parameter]
+    //public SuperHero HeroToEdit { get; set; }
+
+    [Parameter]
     public SuperHero Hero { get; set; } = new SuperHero();
     int comicId = 1;
 
 
-    protected override async Task OnInitializedAsync()
+    protected override async Task OnParametersSetAsync()
     {
         await SuperHeroService.GetComics();
+        comicId = Hero.Comic.Id;
     }
-        
+
 
     async void HandleSubmit()
     {
         Hero.Comic = SuperHeroService.Comics.FirstOrDefault(c => c.Id == comicId);
-        Console.WriteLine("Submit was called!");
-        //Console.WriteLine(Hero.FirstName);
-        JsRuntime.InvokeVoidAsync("console.log", Hero);
 
-        await SuperHeroService.CreateSuperHero(Hero);
+        await JsRuntime.InvokeVoidAsync("console.log", Hero);
+
+        if (Hero.Id == 0)
+        {
+            //Console.WriteLine("CREATE");
+            await SuperHeroService.CreateSuperHero(Hero);
+        }
+        else
+        {
+            Console.WriteLine("UPDATE");
+            await SuperHeroService.UpdateSuperHero(Hero, Hero.Id);
+        }
+                        
     }
 }

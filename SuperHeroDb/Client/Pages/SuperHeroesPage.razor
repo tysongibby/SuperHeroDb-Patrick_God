@@ -20,6 +20,7 @@ else
                 <th>Comic</th>
                 <th></th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
@@ -34,7 +35,10 @@ else
                     <button class="btn btn-primary" @onclick="(() => ShowHero(hero.Id))">Show</button>
                 </td>
                 <td>
-                    <button class="btn btn-primary" @onclick="(() => ShowHero(hero.Id))">Edit</button>
+                    <button class="btn btn-primary" @onclick="(() => EditHero(hero.Id))">Edit</button>
+                </td>
+                <td>
+                    <button class="btn btn-primary" @onclick="(() => DeleteHero(hero.Id))">Delete</button>
                 </td>
             </tr>
             }
@@ -42,10 +46,10 @@ else
     </table>
 }
 
-<EditSuperHero></EditSuperHero>
+<EditSuperHero Hero="heroToEdit"></EditSuperHero>
 
 @code {
-    //List<SuperHero> heroes = new List<SuperHero>();
+    SuperHero heroToEdit = new SuperHero();
 
     protected override async Task OnInitializedAsync()
     {
@@ -58,9 +62,14 @@ else
         NavigationManager.NavigateTo($"superhero/{id}");
     }
 
-    void EditHero()
+    void EditHero(int id)
     {
-        // TODO: stopped here
+        heroToEdit = SuperHeroService.Heroes.Find(h => h.Id == id);
+    }
+
+    void DeleteHero(int id)
+    {
+        SuperHeroService.DeleteSuperHero(id);
     }
 
     public void Dispose()
